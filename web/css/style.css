@@ -1,0 +1,360 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+    font-family: Arial;
+    background-image: url("../img/bg.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #aaa;
+    background-size: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: #eee;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.head {
+    height: 120px;
+    position: relative;
+}
+
+.dib {
+    display: inline-block;
+}
+
+.user {
+    margin: 0 0px;
+    padding: 10px;
+    background-color: #000;
+    box-shadow: 0 0 5px #000;
+}
+
+.search {
+    display: inline-block;
+    position: absolute;
+    top: 38px;
+    width: 50%;
+    right: 20px;
+}
+
+.search #q {
+    height: 30px;
+    font-size: 17px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    box-shadow: inset 0 0 3px #000;
+    padding: 5px;
+}
+
+.footer {
+    min-height: 100px;
+    padding: 10px;
+    margin-top: 50px;
+}
+
+.footer a{
+}
+
+.content {
+    display: inline-block;
+    min-height: 300px;
+    padding: 5px;
+
+    border-radius: 0 5px 5px 0;
+    width: 60%
+}
+
+.opdiv {
+    background-color: #000000;
+    box-shadow: 0 0 5px #000;
+    opacity: 0.95;
+}
+
+#loginForm {
+    width: 350px;
+    margin-left: -175px;
+    height: 130px;
+}
+
+.popup {
+    display: inline-block;
+    left: 50%;
+    padding: 10px;
+    position: fixed;
+    top: 10%;
+    border-radius: 5px;
+    width: 700px;
+    margin-left: -350px;
+    overflow-y: auto;
+    height: 400px;
+}
+
+.popup input[type=text], .popup input[type=password] {
+    border: 1px solid #DDDDDD;
+    border-radius: 3px 3px 3px 3px;
+    margin-bottom: 5px;
+    width: 98.5%;
+}
+
+.hide {display: none;}
+
+.x-track {
+    padding: 5px 1px;
+    border-bottom: 1px solid #111111;
+}
+
+.x-track:hover a, .x-playing a {
+    color: #000;
+}
+
+.x-track:hover, .x-playing {
+    background-color: #bbb;
+    color: #000;
+}
+
+.x-track:hover .x-icon-play, .x-playing .x-icon-play {
+    background-position: 0 -71px;
+}
+
+.x-track:hover .x-icon-pause, .x-playing .x-icon-pause {
+    background-position: 0 -131px;
+}
+
+.x-track:hover .x-icon-pladd, .x-playing .x-icon-pladd {
+    background-position: 0 -226px;
+}
+
+.x-icons {
+    background-image: url("../img/icons.png");
+    background-repeat: no-repeat;
+    height: 16px;
+    min-width: 16px;
+    outline: medium none;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.x-icons:hover {text-decoration: none;}
+
+.x-icon-play {
+    background-position: 0 -91px;
+}
+
+.x-icon-link {
+    background-position: 0 -190px;   
+}
+
+.x-icon-play:hover {
+    background-position: 0 -111px !important;
+}
+
+.x-icon-pause {
+    background-position: 0 -151px;
+}
+
+.x-icon-pause:hover {
+    background-position: 0 -172px !important;
+}
+
+.x-icon-pladd {
+    background-position: 0 -246px;
+}
+
+.x-icon-tw {
+    background-position: 0 -381px;
+}
+
+.x-icon-vk {
+    background-position: 0 -399px;
+}
+
+.x-icon-fb {
+    background-position: 0 -418px;
+}
+
+.x-icon-download {
+    background-position: 0 -44px;   
+}
+
+.x-icon-pladd:hover {
+    background-position: 0 -267px !important;
+}
+
+.x-icon-lyrics {
+    background-position: 0 -290px;
+}
+
+.x-icon-expand {
+    background-position: 0 -344px;
+    padding-left: 14px;   
+}
+
+.x-icon-expand:hover {
+    background-position: 0 -362px;
+    padding-left: 14px;   
+}
+
+.x-icon-collapse {
+    background-position: 0 -312px;
+    padding-left: 14px;   
+}
+
+.x-icon-collapse:hover {
+    background-position: 0 -327px;
+    padding-left: 14px;   
+}
+
+.x-icon-edit {
+    background-position: 0 -2px;
+}
+
+.x-icon-del {
+    background-position: 0 -22px;
+}
+
+.hide {
+    display: none;
+}
+
+.jp-progress {
+    cursor: pointer;
+    display: inline-block;
+    width: 65%;
+    height: 8px;
+    background-color: #222;
+}
+
+.jp-seek-bar {
+    background-color: #111;
+    height: 8px;
+}
+
+.jp-play-bar {
+    background-color: #DE4E00;
+    height: 8px;
+}
+
+.jp-volume-bar {
+    cursor: pointer;
+    display: inline-block;
+    width: 15%;
+    height: 8px;
+    background-color: #111;
+}
+
+.jp-volume-bar-value {
+    height: 8px;
+    background-color: #DE4E00;
+}
+
+.jp-audio {
+    background-color: #000;
+}
+
+.sidebar {
+    display: inline-block;
+    vertical-align: top;
+
+    width: 38%;
+    float: right;
+}
+
+.sidebar .opdiv {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px 0 0 5px;
+}
+
+
+.pagerfanta {
+    margin-top: 10px;
+}
+
+.pagerfanta a,
+.pagerfanta span {
+    display: inline-block;
+    color: orange;
+    margin-right: .2em;
+    padding: .25em .35em;
+}
+
+.pagerfanta a {
+    text-decoration: none;
+}
+
+.pagerfanta a:hover {
+    background: #222;
+}
+
+.pagerfanta .dots {
+    border-width: 0;
+}
+
+.pagerfanta .current {
+    background: #222;
+    font-weight: bold;
+}
+
+.pagerfanta .disabled {
+    border-color: #111;
+    color: #111;
+}
+
+.pagerfanta a,
+.pagerfanta span {
+    color: orange;
+}
+
+.pagerfanta a:hover {
+    background: #222;
+}
+
+.pagerfanta .current {
+    background: #222;
+}
+
+.pagerfanta .disabled {
+    color: #111;
+}
+
+.pladdcont {
+    display: inline-block;
+    position: relative;
+}
+
+.plslist {
+    position: absolute;
+    top: 15px;
+    min-width: 80px;
+    min-height: 70px;
+    background-color: #fff;
+    padding: 2px;
+    z-index: 100;
+    box-shadow: 0 0 5px #ddd;
+}
+
+.plslist a {
+    display: block;
+    padding: 2px;
+    color: #000;
+}
+
+.plslist a:hover {
+    text-decoration: none;
+    background-color: #ddd;
+}
+
+.x-track .ic-block, .pl-head .plic-block {
+    display: none;
+}
+
+.x-track:hover .ic-block, .pl-head:hover .plic-block {
+    display: inline-block;
+}

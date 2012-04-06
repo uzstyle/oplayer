@@ -1,0 +1,7 @@
+RewriteEngine On
+#RewriteBase /path/to/app
+#RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^web/(.*) web/$1 [L]
+RewriteRule ^check.php check.php [L]
+RewriteRule ^update.php update.php [L]
+RewriteRule ^ index.php [L]

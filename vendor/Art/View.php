@@ -23,7 +23,6 @@ class View {
         } else {
             require_once $path . '/' . $template;
         }
-        
 
         $content = ob_get_clean();
         
