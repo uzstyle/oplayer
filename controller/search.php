@@ -38,6 +38,8 @@ $app->get('/search/{q}', function(Request $request, $q) use($app) {
             $similar = $lastfmdata->similarartists->artist;
         }
     }
+    
+    Reg::set('q', $q);
 
     return $app['view']->render('layout.phtml', 'search/list.phtml', array(
         'res' => $pagerfanta,
