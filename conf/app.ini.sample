@@ -1,24 +1,33 @@
 [app]
+;Main page catalog limit ( 200 - max ).
 catalogLimit = 198
+; Tracks search page limit
 itemsPerPage = 50
 
 lastfmapikey = "fe659cc1af981770f70c203586b4ac36"
 lastfmsecret = "658133472689bbd229e353566bda28a1"
 
+; Your site url
 baseHref = "http://YOURSITE.COM/"
 
+; Your email
 adminemail = "email@admin.com"
 
 [db]
+; Database conf
 dsn = "mysql://USER:PASSWORD@HOST/DBNAME;charset=utf8"
 
 [cache]
+; Lastfm cache time
 artists = "24*60*60"
 
 [vk]
+; Parser settings
 uagent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1"
+; Standalone vk-application ID
 appId = 2802695
 
+; VK Accounts
 email[0] = "email@domain.com"
 pass[0] = "pass"
 
