@@ -31,7 +31,7 @@ appId = 2802695
 email[0] = "email@domain.com"
 pass[0] = "pass"
 
-;email[0] = "email2@domain.com"
+;email[1] = "email2@domain.com"
 ;pass[1] = "pass2"
 
 [seo]
