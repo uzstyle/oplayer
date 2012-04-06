@@ -1,0 +1,27 @@
+<div class="plslist">
+	<?php foreach ( $pls as $pl ): ?>
+		<a data-id="<?php echo $pl->id ?>" class="x-plitem" href="javascript:">
+			<?php echo $pl->name ?>
+		</a>
+	<?php endforeach ?>
+</div>
+
+<script type="text/javascript">
+	$('.x-plitem').click(function() {
+		var id = $(this).data('id');
+		var vkId = $(this).parents('.x-track').data('vkid');
+
+		$.ajax({
+			url: "./user/addtrackToPl",
+			type: "post",
+			data: {
+				vkId: vkId,
+				playlistId: id	
+			},
+			success: function() {
+				reloadPlaylists();
+				$('.plslist').remove();
+			}
+		});
+	});
+</script>

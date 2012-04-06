@@ -1,0 +1,49 @@
+<div class="x-track" 
+	data-vkid="<?php echo $track['vkid'] ?>"
+	data-lyricsid="<?php echo isset($track['lyrics_id']) ? $track['lyrics_id'] : '' ?>"
+	data-artist="<?php echo $track['artist'] ?>"
+	data-name="<?php echo $track['title'] ?>"
+
+	>
+
+	<a href="javascript:" class="x-icons x-play x-icon-play" title="Воспроизвести">&nbsp;</a>
+	<a href="javascript:" style="display: none;" class="x-icons x-pause x-icon-pause" title="Пауза">&nbsp;</a>
+
+	<strong>
+		<a href="./search/<?php echo urlencode(str_replace("/", " ", $track['artist'])) ?>" title="Слушуть <?php echo $track['artist'] ?> онлайн"><?php echo trunc($track['artist'], 50) ?></a>
+	</strong>
+	-
+	<?php $link = $app['conf']->getOption('app', 'baseHref') . "track/{$track['vkid']}" ?>
+	<a href="<?php echo $link ?>" title="Страница трека"><?php echo trunc($track['title'], 50) ?></a> (<?php echo view_ducation($track['duration']) ?>)
+	
+	<div class="ic-block">
+		<?php if ( isset($track['lyrics_id']) && $track['lyrics_id'] > 0 ): ?> 
+			<a href="javascript:" class="x-icons x-lyrics x-icon-lyrics" title="Слова трека">&nbsp;</a>
+		<?php endif ?>
+
+		<a href="javascript:" class="x-icons x-link x-icon-link" title="Ссылка на трек">&nbsp;</a>
+		
+		<?php if ( !isset($track['pl']) ): ?>
+			<div class="pladdcont">
+				<a href="javascript:" class="x-icons x-pladd x-icon-pladd" title="Добавить в плейлист">&nbsp;</a>
+			</div>
+		<?php else: ?>
+			<a href="javascript:" class="x-icons x-pltrackdel x-icon-del" title="Убрать из плейлиста">&nbsp;</a>
+		<?php endif ?>
+
+		<?php if ( conf('options', 'enabledownload', 1) ): ?>
+			<a href="./getsong/<?php echo $track['vkid'] ?>?dl=1" siteload="siteload" target="_blank" class="x-icons x-icon-download" title="Скачать">&nbsp;</a>
+		<?php endif ?>
+
+		<?php if ( conf('options', 'enableshare', 1) ): ?>
+			|
+			<!-- Засрать ленту -->
+			<?php $status = trunc($track['artist'], 50)." - ".trunc($track['title'], 50)." #nowplaying #openwebplayer"?>
+			<a href="http://twitter.com/home?status=<?php echo urlencode($status . " {$link}" . " via @openwebplayer")?>" siteload="siteload" class="x-icons x-icon-tw" target="_blank" title="Твиттнуть">&nbsp;</a>
+
+			<a href="http://vk.com/share.php?url=<?php echo urlencode($link)?>&title=<?php echo urlencode($status)?>&description=<?php echo urlencode($status) . " " . urlencode($link)?>" siteload="siteload" class="x-icons x-icon-vk" target="_blank" title="Рассказать друзьям вконтакте">&nbsp;</a>
+			
+			<a href="http://facebook.com/sharer.php?u=<?php echo urlencode($link)?>&t=<?php echo urlencode($status) . " " . urlencode($link)?>" siteload="siteload" class="x-icons x-icon-fb" target="_blank" title="Рассказать друзьям в фейсбук">&nbsp;</a>
+		<?php endif ?>
+	</div>
+</div>

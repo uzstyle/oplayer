@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><?php echo seo_title() ?></title>
+        <meta name="charset" value="UTF-8" />
+
+        <base href="<?php echo $app['conf']->getOption('app', 'baseHref') ?>"/>
+
+        <meta name="description" content="<?php echo seo_description() ?>" />
+        <meta name="keywords" content="<?php echo seo_keywords() ?>" />
+
+        <link rel="shortcut icon" href="./web/img/fav.png" />
+        <link rel="icon" href="./web/img/fav.png"/>
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+
+        <script type="text/javascript" src="./web/js/jPlayer/jquery.jplayer.min.js"></script>
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    </head>
+
+    <body>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                font-size: 12px;
+                font-family: Arial;/*@todo*/
+                background-image: url("./web/img/bg.jpg");
+                background-attachment: fixed;
+                background-repeat: no-repeat;
+                color: #aaa;
+                background-size: 100%;
+            }
+            
+            a {
+                text-decoration: none;
+                color: #eee;
+            }
+            
+            a:hover {
+                text-decoration: underline;
+            }
+            
+            .head {
+                height: 120px;
+                position: relative;
+            }
+
+            .dib {
+                display: inline-block;
+            }
+
+            .user {
+                margin: 0 0px;
+                padding: 10px;
+                background-color: #000;
+                box-shadow: 0 0 5px #000;
+            }
+            
+            .search {
+                display: inline-block;
+                position: absolute;
+                top: 38px;
+                width: 50%;
+                right: 20px;
+            }
+            
+            .search #q {
+                height: 30px;
+                font-size: 17px;
+                width: 100%;
+                border: none;
+                border-radius: 5px;
+                box-shadow: inset 0 0 3px #000;
+                padding: 5px;
+            }
+            
+            .footer {
+                min-height: 100px;
+                padding: 10px;
+                margin-top: 50px;
+            }
+            
+            .footer a{
+            }
+            
+            .content {
+                display: inline-block;
+                min-height: 300px;
+                padding: 5px;
+                
+                border-radius: 0 5px 5px 0;
+                width: 60%
+            }
+
+            .opdiv {
+                background-color: #000000;
+                box-shadow: 0 0 5px #000;
+                opacity: 0.95;
+            }
+
+            #loginForm {
+                width: 350px;
+                margin-left: -175px;
+                height: 130px;
+            }
+
+            .popup {
+                display: inline-block;
+                left: 50%;
+                padding: 10px;
+                position: fixed;
+                top: 10%;
+                border-radius: 5px;
+                width: 700px;
+                margin-left: -350px;
+                overflow-y: auto;
+                height: 400px;
+            }
+
+            .popup input[type=text], .popup input[type=password] {
+                border: 1px solid #DDDDDD;
+                border-radius: 3px 3px 3px 3px;
+                margin-bottom: 5px;
+                width: 98.5%;
+            }
+
+            .hide {display: none;}
+            
+            .x-track {
+                padding: 5px 1px;
+                border-bottom: 1px solid #111111;
+            }
+
+            .x-track:hover a, .x-playing a {
+                color: #000;
+            }
+
+            .x-track:hover, .x-playing {
+                background-color: #bbb;
+                color: #000;
+            }
+
+            .x-track:hover .x-icon-play, .x-playing .x-icon-play {
+                background-position: 0 -71px;
+            }
+
+            .x-track:hover .x-icon-pause, .x-playing .x-icon-pause {
+                background-position: 0 -131px;
+            }
+
+            .x-track:hover .x-icon-pladd, .x-playing .x-icon-pladd {
+                background-position: 0 -226px;
+            }
+
+            .x-icons {
+                background-image: url("./web/img/icons.png");
+                background-repeat: no-repeat;
+                height: 16px;
+                min-width: 16px;
+                outline: medium none;
+                text-decoration: none;
+                display: inline-block;
+            }
+
+            .x-icons:hover {text-decoration: none;}
+
+            .x-icon-play {
+                background-position: 0 -91px;
+            }
+
+            .x-icon-link {
+                background-position: 0 -190px;   
+            }
+
+            .x-icon-play:hover {
+                background-position: 0 -111px !important;
+            }
+
+            .x-icon-pause {
+                background-position: 0 -151px;
+            }
+
+            .x-icon-pause:hover {
+                background-position: 0 -172px !important;
+            }
+
+            .x-icon-pladd {
+                background-position: 0 -246px;
+            }
+
+            .x-icon-tw {
+                background-position: 0 -381px;
+            }
+
+            .x-icon-vk {
+                background-position: 0 -399px;
+            }
+
+            .x-icon-fb {
+                background-position: 0 -418px;
+            }
+
+            .x-icon-download {
+                background-position: 0 -44px;   
+            }
+
+            .x-icon-pladd:hover {
+                background-position: 0 -267px !important;
+            }
+
+            .x-icon-lyrics {
+                background-position: 0 -290px;
+            }
+
+            .x-icon-expand {
+                background-position: 0 -344px;
+                padding-left: 14px;   
+            }
+
+            .x-icon-expand:hover {
+                background-position: 0 -362px;
+                padding-left: 14px;   
+            }
+
+            .x-icon-collapse {
+                background-position: 0 -312px;
+                padding-left: 14px;   
+            }
+
+            .x-icon-collapse:hover {
+                background-position: 0 -327px;
+                padding-left: 14px;   
+            }
+
+            .x-icon-edit {
+                background-position: 0 -2px;
+            }
+
+            .x-icon-del {
+                background-position: 0 -22px;
+            }
+
+            .hide {
+                display: none;
+            }
+
+            .jp-progress {
+                cursor: pointer;
+                display: inline-block;
+                width: 65%;
+                height: 8px;
+                background-color: #222;
+            }
+
+            .jp-seek-bar {
+                background-color: #111;
+                height: 8px;
+            }
+
+            .jp-play-bar {
+                background-color: #DE4E00;
+                height: 8px;
+            }
+
+            .jp-volume-bar {
+                cursor: pointer;
+                display: inline-block;
+                width: 15%;
+                height: 8px;
+                background-color: #111;
+            }
+
+            .jp-volume-bar-value {
+                height: 8px;
+                background-color: #DE4E00;
+            }
+
+            .jp-audio {
+                background-color: #000;
+            }
+
+            .sidebar {
+                display: inline-block;
+                vertical-align: top;
+
+                width: 38%;
+                float: right;
+            }
+
+            .sidebar .opdiv {
+                margin-bottom: 10px;
+                padding: 5px;
+                border-radius: 5px 0 0 5px;
+            }
+
+
+            .pagerfanta {
+                margin-top: 10px;
+            }
+
+            .pagerfanta a,
+            .pagerfanta span {
+                display: inline-block;
+                color: orange;
+                margin-right: .2em;
+                padding: .25em .35em;
+            }
+
+            .pagerfanta a {
+                text-decoration: none;
+            }
+
+            .pagerfanta a:hover {
+                background: #222;
+            }
+
+            .pagerfanta .dots {
+                border-width: 0;
+            }
+
+            .pagerfanta .current {
+                background: #222;
+                font-weight: bold;
+            }
+
+            .pagerfanta .disabled {
+                border-color: #111;
+                color: #111;
+            }
+
+            .pagerfanta a,
+            .pagerfanta span {
+                color: orange;
+            }
+
+            .pagerfanta a:hover {
+                background: #222;
+            }
+
+            .pagerfanta .current {
+                background: #222;
+            }
+
+            .pagerfanta .disabled {
+                color: #111;
+            }
+
+            .pladdcont {
+                display: inline-block;
+                position: relative;
+            }
+
+            .plslist {
+                position: absolute;
+                top: 15px;
+                min-width: 80px;
+                min-height: 70px;
+                background-color: #fff;
+                padding: 2px;
+                z-index: 100;
+                box-shadow: 0 0 5px #ddd;
+            }
+
+            .plslist a {
+                display: block;
+                padding: 2px;
+                color: #000;
+            }
+
+            .plslist a:hover {
+                text-decoration: none;
+                background-color: #ddd;
+            }
+
+            .x-track .ic-block, .pl-head .plic-block {
+                display: none;
+            }
+
+            .x-track:hover .ic-block, .pl-head:hover .plic-block {
+                display: inline-block;
+            }
+
+        </style>
+
+        <div class="user" id="part_menu">
+            <?php include 'part/menu.phtml' ?>
+        </div>
+        
+        <div class="head">
+            <div class="dib">
+                <img src="./web/img/logo.png"/>
+            </div>
+
+            <div class="search">
+                <form onsubmit="return Search.search(this)">
+                    <input id="q" type="text" name="q" value="" placeholder="Поиск"/>
+                </form>
+            </div>
+        </div>
+        
+        <div class="content opdiv" id="content">
+            <?php echo $content ?>
+        </div>
+        
+        <div class="sidebar">
+            <div class="opdiv">
+                <?php include 'player.phtml' ?>
+                <div id="trackname"></div>
+            </div>
+
+            <div id="playlists">
+                <?php echo playlists(); ?>
+            </div>
+
+            <div class="opdiv">
+                <h3>Last.fm top 20</h3>
+
+                <?php echo lastfmchart(); ?>
+            </div>
+
+            <div class="opdiv">
+                <h3 onclick="$('#easterEgg').toggle()">Помощь проекту OpenPlayer</h3>
+
+                <div id="easterEgg" style="display:none">
+                    <!-- Jimmy is here -->
+                    :-)<br/><br/>
+                    <img src="http://dl.dropbox.com/u/10902867/jimmy.jpg"/>
+
+                </div>
+
+                <?php include 'donate.phtml' ?>
+            </div>
+
+        </div>
+
+        <div style="clear:both"></div>
+
+        <div class="footer opdiv">
+            <div style="margin-bottom:10px">
+                Разработчик <a siteload="siteload" target="_blank" href="http://bonart.org.ua">Артём Бондаренко</a>.
+            </div>
+
+            <div style="margin-bottom:10px">
+                Работает на базе 
+                <a target="_blank" siteload="siteload" href="https://github.com/uavn/openplayer">OpenPlayer</a>,
+                <a target="_blank" siteload="siteload" href="http://silex.sensiolabs.org">Silex PHP Framework</a>,
+                <a target="_blank" siteload="siteload" href="http://phpactiverecord.org">PHPActiveRecord</a>,
+                <a target="_blank" siteload="siteload" href="https://github.com/whiteoctober/Pagerfanta">Pagerfanta</a>.
+            </div>
+
+            <div>
+                Хостинг от <a target="_blank" siteload="siteload" href="http://www.ukraine.com.ua/#27035">ukraine.com.ua</a>.
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var Search = {
+                search: function() {
+                    var val = $('#q').val();
+
+                    Site.load("./search/"+(val.replace(/\//, ' ')), 1);
+                    return false;
+                }
+            }
+
+            var Loading = {
+                on: function() {
+                    $('#loading').fadeIn('fast');
+                },
+
+                off: function() {
+                    $('#loading').fadeOut('fast');
+                }
+            }
+
+            var User = {
+                login: function(form) {
+                    var data = $(form).serialize();
+
+                    Loading.on();
+                    $.ajax({
+                        url: $(form).attr('action'),
+                        data: data,
+                        type: 'post',
+
+                        success: function(data) {
+                            User.reloadUserParts();
+                            Site.load("./", 1);
+                        }
+                    });
+
+                    return false;
+                },
+
+                logout: function() {
+                    Loading.on();
+                    $.ajax({
+                        url: "./user/logout",
+                        type: 'post',
+
+                        success: function(data) {
+                            User.reloadUserParts();
+                        }
+                    });
+                },
+
+                reloadUserParts: function() {
+                    $('#part_menu').load("./part/menu");
+                    Controls.init();
+                    reloadPlaylists();
+                    Loading.off();
+                }
+            }
+
+            var Controls = {
+                init: function() {
+                    $('.x-pladd').unbind('click');
+                    $('.x-pladd').click(function() {
+                        var self = this;
+                        $('.plslist').remove();
+                        $.ajax({
+                            url: "./plslist",
+                            success: function( resp ) {
+                                $($(self).parents('.x-track').find('.pladdcont')).append(resp);
+                            }
+
+                        });
+                    });
+
+                    $('.x-pltrackdel').unbind('click');
+                    $('.x-pltrackdel').click(function() {
+                        if ( confirm("Уверен?") ) {
+                            var self = this;
+                            var playlistId = $(this).parents('.pl').data('id');
+                            var vkId = $(this).parents('.x-track').data('vkid');
+
+                            $.ajax({
+                                url: "./user/pltrackremove",
+                                type: "post",
+                                data: {
+                                    playlistId: playlistId,
+                                    vkId: vkId
+                                },
+                                success: function( resp ) {
+                                    $(self).parents('.x-track').remove();
+                                }
+                            });
+                        }
+                    });
+
+                    $('.x-lyrics').unbind('click');
+                    $('.x-lyrics').click(function() {
+                        var lyricsId = $(this).parents('.x-track').data('lyricsid');
+
+                        Loading.on();
+                        $.ajax({
+                            url: "./getlyrics",
+                            data: {
+                                lyricsId: lyricsId
+                            },
+                            success: function( resp ) {
+                                $('#popupBlock').html(resp);
+                                $('#popupBlock').fadeIn('fast');
+                                Loading.off();
+                                Controls.init();
+                            }
+                        });
+                    });
+
+                    $('.x-play').unbind('click');
+                    $('.x-play').click(function() {
+                        var track = $(this).parents('.x-track');
+                        var vkid = $(track).data('vkid');
+
+                        $('.x-playing').removeClass('x-playing');
+                        $(track).addClass('x-playing');
+
+                        $('.x-pause').hide();
+                        $('.x-play').show();
+
+                        $(track).find('.x-pause').show();
+                        $(this).hide();
+
+                        if ( vkid == window.curTrack ) {
+                            $("#jquery_jplayer_1").jPlayer("play");
+                        } else {
+                            $('.jp-audio').slideDown();
+                            window.curTrack = vkid;
+                            window.nowplaying = track;
+
+                            $('#trackname').html($(track).data('artist')+' - '+$(track).data('name'));
+
+                            $("#jquery_jplayer_1").jPlayer("setMedia", {
+                                "mp3": "./getsong/"+vkid
+                            }).jPlayer("play");
+                        }
+                    });
+
+                    $('.x-pause').unbind('click');
+                    $('.x-pause').click(function() {
+                        var track = $(this).parents('.x-track');
+
+                        $(track).find('.x-play').show();
+                        $(this).hide();
+
+                        $.jPlayer.pause();
+                    });
+
+                    $('.x-icon-link').unbind('click');
+                    $('.x-icon-link').click(function() {
+                        var track = $(this).parents('.x-track');
+
+                        prompt("Ссылка на трек", "<?php echo $app['conf']->getOption('app', 'baseHref') ?>track/"+$(track).data('vkid'));
+                    });
+
+                    $('#topArtists a').hover(function() {
+                        var img = $(this).data('img');
+                        $('<img/>', {'src': img, 'css': {'position': 'absolute', 'top': '15px', 'z-index': 100}})
+                            .insertBefore($(this));
+                    }, function() {
+                        $('#topArtists img').remove();
+                    });
+
+                    var selector = 'a[href!="javascript:"][siteload!="siteload"]';
+                    $(selector).click(function(e) {
+                        e.preventDefault();
+                        /*  
+                        if uncomment the above line, html5 nonsupported browers won't change the url but will display the ajax content;
+                        if commented, html5 nonsupported browers will reload the page to the specified link. 
+                        */
+                      
+                        pageurl = $(this).attr('href');
+                        Site.load(pageurl, 1);
+                        
+                        return false;
+                    });
+
+                    $(window).unbind('popstate');
+                    $(window).bind('popstate', function() {
+                        Site.load(location.pathname);
+                    });
+
+                    $(selector).attr('siteload', 'siteload');
+                }
+            }
+
+            Controls.init();
+
+            var Site = {
+                load: function(href, store) {
+                    // to change the browser URL to 'href'
+                    if ( store && href != location.href ) {
+                        if (  typeof window.history.pushState != 'undefined' ) {
+                            window.history.pushState({
+                                path: href
+                            }, 'Title', href);
+                        } else {
+                            // Старые браузеры идут накуй
+                        }
+                    }
+
+                    Loading.on();
+                    $.ajax({
+                        url: href,
+                        success: function( data ) {
+                            $('#content').html(data);
+                            Loading.off();
+                            Controls.init();
+                            
+                            // $('#content').fadeOut('fast', function() {
+                            //     $('#content').html(data);
+                            //     $('#content').fadeIn('fast');
+                            //     Loading.off();
+                            //     Controls.init();
+                            // });                                
+                        }
+                    });
+                },
+
+                init: function() {
+                    $("#jquery_jplayer_1").jPlayer({
+                        swfPath: "./web/js/jPlayer/",
+                        solution: "flash, html",
+                        supplied: "mp3",
+                        volume: "100",
+
+                        ready: function() {},
+
+                        ended: function() {
+                            // add checks if this is the end of page
+                            $(window.nowplaying).next().find('.x-play').click();
+                        },
+
+                        pause: function() {},
+                        play: function() {
+                            Loading.off();
+                        },
+
+                        mute: function() {},
+                        unmute: function() {}
+                    });
+
+                    Controls.init();
+
+                    $(document).ready(function() {
+                        $('#popupBlock').click(function() {
+                            $(this).fadeOut('fast');
+                        });
+                    });
+
+                    $(document).click(function() {
+                        $('.plslist').remove();
+                    });
+                },
+
+                links: function() {
+                    
+                }
+            }
+
+            Site.init();
+
+            function reloadPlaylists() {
+                $.ajax({
+                    url: "./user/widget/pl",
+                    success: function( resp ) {
+                        $('#playlists').html(resp);
+                        Controls.init();
+                    }
+                });
+            }
+        </script>
+
+        <?php include 'form/popup.phtml' ?>
+
+        <style type="text/css">
+        .loading {
+            background-color: #ddd; 
+            top: 0pt; 
+            left: 0pt; 
+            right: 0pt; 
+            border: 0pt none; 
+            bottom: 0pt; 
+            position: fixed; 
+            opacity: 0.3;
+            display: none;
+        }
+
+        .loading img {
+            position: absolute;
+            left: 50%;
+            margin-left: -64px;
+            top:30%;
+        }
+        </style>
+
+        <div class="loading" id="loading">
+            <img src="./web/img/loading.gif"/>
+        </div>
+    </body>
+</html>
+
+

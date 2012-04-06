@@ -1,0 +1,23 @@
+<h3><?php echo $q ?> (<strong><?php echo number_format($res->getNbResults(), 0, '.', ' ') ?></strong>)</h3>
+
+<?php if ( count($similar ) ): ?>
+	<div style="margin-bottom: 10px;">
+		Похожие исполнители:
+
+		<?php foreach ( $similar as $key => $similarArtist ): ?>
+			<?php $del = ( $key >= ( count($similar) - 1 ) ? "" : ", " ) ?> 
+			<a href="./search/<?php echo $similarArtist->name ?>"><?php echo $similarArtist->name ?></a><?php echo $del?>	
+		<?php endforeach ?>
+	</div>
+<?php endif ?>
+
+<div class="x-tracks">
+	<?php foreach ( $res->getCurrentPageResults() as $track ): ?>
+		<?php $track['vkid'] = "{$track['owner_id']}_{$track['aid']}"; ?>
+		<?php include __DIR__.'/../part/track.phtml' ?>
+	<?php endforeach ?>
+
+	<?php if ( $res->haveToPaginate() ): ?>
+		<div class="pagerfanta"><?php echo $pagination ?></div>
+	<?php endif ?>
+</div>

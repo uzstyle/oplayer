@@ -1,0 +1,17 @@
+<h1>Войти на сайт</h1>
+
+<p style="margin-bottom: 5px; font-size:110%;">
+	Регистрироваться не обязательно, просто введи желаемый логин <b>или</b> логин и пароль и система аутентифицирует тебя под ним.
+</p>
+
+<form action="./user/login" method="post" onsubmit="return User.login(this);">
+	<p>
+		<input type="text" name="login" value="" placeholder="Логин или емейл" autocomplete="off"/>
+	</p>
+	<p>
+		<input type="password" name="password" value="" placeholder="Пароль (не обязательно)"/>
+	</p>
+	<p>
+		<input type="submit" value="Войти"/>
+	</p>
+</form>

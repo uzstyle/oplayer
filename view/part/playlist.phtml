@@ -1,0 +1,182 @@
+<?php if ( $app['user']::get('id') ): ?>
+	<div class="opdiv">
+		<style>
+			.pl {
+				border: 1px solid #111;
+				margin-bottom: 5px;
+				padding: 5px;
+				border-radius: 3px;
+				cursor: move;
+			}
+			.pl-head {
+				padding-bottom: 1px;
+			}
+
+			.pl-body {
+				min-height: 100px;
+				
+			}
+
+			.pl-body .x-track {
+				cursor: move;
+			}
+
+		</style>
+
+		<div>
+			<?php if ( $pls ): ?>
+				<h3>Плейлисты</h3>
+
+				<div id="plcntbl">
+					<?php foreach ( $pls as $pl ): ?>
+						<div class="pl" data-id="<?php echo $pl->id ?>" data-name="<?php echo $pl->name ?>">
+							<div class="pl-head"> 
+								<?php 
+									$className = ( 0 == $pl->status ) ? "x-icon-expand" : "x-icon-collapse";
+								?>
+								<a class="x-icons x-plname <?php echo $className ?>" href="javascript:">
+									<strong><?php echo $pl->name ?></strong>
+								</a>
+
+								<div class="plic-block">
+									<a class="x-icons x-edit x-icon-edit" title="Переименовать плейлист" href="javascript:">&nbsp;</a>
+									<a class="x-icons x-del x-icon-del" title="Удалить плейлист" href="javascript:">&nbsp;</a>
+								</div>
+							</div>
+
+							<div class="pl-body" <?php if ( 0 == $pl->status ): ?> style="display:none"<?php endif ?>>
+								<?php if ( $pltrs && isset($pltrs[$pl->id]) ): ?>
+									<?php foreach ( $pltrs[$pl->id] as $ptrack ): ?>
+										<?php 
+										$track = array(
+											'vkid' => $ptrack->vkid,
+											'lyrics_id' => $ptrack->lyricsid,
+											'artist' => $ptrack->artist,
+											'title' => $ptrack->name,
+											'duration' => $ptrack->duration,
+											'pl' => true
+										);
+										?>
+										<?php include 'track.phtml' ?>
+									<?php endforeach ?>
+								<?php endif ?>
+							</div>
+						</div>
+					<?php endforeach ?>
+				</div>
+			<?php endif ?>
+
+			<a id="newPlaylist" href="javascript:">
+				Добавить плейлист
+			</a>
+		</div>
+
+		<script type="text/javascript">
+			$( "#plcntbl" ).sortable({
+				stop: function() {
+					var pls = $('#plcntbl').find('.pl');
+					var poss = [];
+					$(pls).each(function(i, item) {
+						poss.push($(item).data('id'));
+					});
+
+					$.ajax({
+						url: "./user/plspos",
+						type: "post",
+						data: {poss: poss},
+						success: function() {}
+					});
+				}
+			});
+
+			$('.pl-body').sortable({
+				stop: function() {
+					var plbody = this;
+					var plts = $(plbody).find('.x-track');
+					var poss = [];
+					$(plts).each(function(i, item) {
+						poss.push($(item).data('vkid'));
+					});
+
+					$.ajax({
+						url: "./user/pltrackspos",
+						type: "post",
+						data: {poss: poss, playlistId: $(plbody).parents('.pl').data('id')},
+						success: function() {}
+					});
+				}
+			});
+			// $( "#plcntbl" ).disableSelection();
+
+			$('#newPlaylist').click(function() {
+				var name = prompt("Введи имя плейлиста", "Новый плейлист");
+				if ( name ) {
+					$.ajax({
+						url: "./user/addpl",
+						type: "post",
+						data: {name: name},
+						success: function() {
+							reloadPlaylists();
+						}
+					});
+				}
+			});
+
+			$('.x-edit').click(function() {
+				var id = $(this).parents('.pl').data('id');
+
+				var name = prompt("Введи новое имя плейлиста", $(this).parents('.pl').data('name'));
+				if ( name ) {
+					$.ajax({
+						url: "./user/renamepl",
+						type: "post",
+						data: {id: id, name: name},
+						success: function() {
+							reloadPlaylists();
+						}
+					});
+				}
+			});
+
+			$('.x-del').click(function() {
+				var id = $(this).parents('.pl').data('id');
+
+				if ( confirm("Уверен?") ) {
+					$.ajax({
+						url: "./user/delpl",
+						type: "post",
+						data: {id: id},
+						success: function() {
+							reloadPlaylists();
+						}
+					});
+				}
+			});
+
+			$('.x-plname').click(function() {
+				var id = $(this).parents('.pl').data('id');
+				var plbody = $(this).parents('.pl').find('.pl-body');
+				var status = ('none' == $(plbody).css('display'));
+
+				if ( status ) {
+					$(plbody).show();
+				} else {
+					$(plbody).hide();
+				}
+
+				$.ajax({
+					url: "./user/expandpl",
+					type: "post",
+					data: {
+						id: id, 
+						status: status*1
+					},
+					success: function() {}
+				});
+
+				$(this).toggleClass('x-icon-expand');
+				$(this).toggleClass('x-icon-collapse');
+			});
+		</script>
+	</div>
+<?php endif ?>
