@@ -14,8 +14,8 @@ require_once ROOT . '/helpers.php';
 
 $app = new Silex\Application();
 
-$app['debug'] = 'localhost' == $_SERVER['HTTP_HOST'];
-// ini_set("display_errors", $app['debug'] ? "on" : "off");
+$app['debug'] = true;
+ini_set("display_errors", $app['debug'] ? "on" : "off");
 
 require_once ROOT . '/services.php';
 
@@ -32,15 +32,16 @@ $app->post('/', function(Request $request) use($app) {
 	$all = $res->fetchAll( PDO::FETCH_OBJ );
 
 	if ( count($all) ) {
-		foreach ( $all as $one ) {
+		foreach ( $all as $k => $one ) {
 			if ( !$one->plid ) continue;
 			$info = unserialize($one->songinfo);
 			
-			$q = $info['name'] . ' - ' . $info['artist'];
-
+			$q = "{$info['name']} - {$info['artist']}";
+            $q = str_replace(array("?",".","'","`","/","\\","(",")","♥", "\uffff"), " ", $q);
+        	try {
 			$res = $app['openplayer']->audioSearch($q, 0, 100);
 			$res = $res['result'];
-
+} catch ( Exception $e ) { $res = array(); }
 			$f = null;
 			$found = false;
 			foreach ( $res as $r ) {
@@ -93,6 +94,8 @@ $app->post('/', function(Request $request) use($app) {
 });
 
 $app->get('/', function(Request $request) use($app) {
+    file_get_contents(Art\Config::getInstance()->getOption('app', 'baseHref') . "cc");
+    
 	if ( $id = $request->get('del') ) {
 		$sql = "DELETE FROM pl_song WHERE id = {$id}";
 		$res = $app['pdo']->query( $sql );
@@ -158,7 +161,7 @@ foreach ( $all as $index => $one ) {
 	?>
 	<tr>
 		<td>
-			<input type="checkbox" name="id[]" value="<?php echo $one->id ?>" <?php if ($index < 100): ?>checked="checked"<?php endif ?>/>
+			<input type="checkbox" name="id[]" value="<?php echo $one->id ?>" <?php if ($index < 300): ?>checked="checked"<?php endif ?>/>
 		</td>
 
 		<td>
