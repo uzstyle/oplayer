@@ -4,7 +4,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\View\DefaultView;
 
-$app->get('/search/{q}', function(Request $request, $q) use($app) {
+$app->get('/search/{query}', function(Request $request, $query) use($app) {
+    $q = $app->escape($query);
     $seo = Reg::get('seo');
     $seo['title'] = "Слушать {$q} онлайн.";
     Reg::set('seo', $seo);

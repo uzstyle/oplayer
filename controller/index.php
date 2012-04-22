@@ -6,7 +6,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 $app->get('/', function(Request $request) use($app) {
     // old ver compatibility
     if ( $q = $request->get('q') ) {
-        return new RedirectResponse("./search/{$q}");
+    	$query = $app->escape($q);
+        return new RedirectResponse("./search/{$query}");
     }
 
 	$lastfmdata = Art\LastFM::request($app['conf'], "chart.getTopArtists", array(
