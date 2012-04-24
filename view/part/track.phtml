@@ -10,7 +10,7 @@
 	<a href="javascript:" style="display: none;" class="x-icons x-pause x-icon-pause" title="Пауза">&nbsp;</a>
 
 	<strong>
-		<a href="./search/<?php echo urlencode(str_replace("/", " ", $track['artist'])) ?>" title="Слушуть <?php echo $track['artist'] ?> онлайн"><?php echo trunc($track['artist'], 50) ?></a>
+		<a href="./search/<?php echo urlencode(str_replace("/", " ", $track['artist'])) ?>" title="Слушать <?php echo $track['artist'] ?> онлайн"><?php echo trunc($track['artist'], 50) ?></a>
 	</strong>
 	-
 	<?php $link = $app['conf']->getOption('app', 'baseHref') . "track/{$track['vkid']}" ?>
