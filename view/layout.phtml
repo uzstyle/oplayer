@@ -9,15 +9,15 @@
         <meta name="description" content="<?php echo seo_description() ?>" />
         <meta name="keywords" content="<?php echo seo_keywords() ?>" />
 
-        <link rel="shortcut icon" href="./web/img/fav.png" />
-        <link rel="icon" href="./web/img/fav.png"/>
+        <link rel="shortcut icon" href="/web/img/fav.png" />
+        <link rel="icon" href="/web/img/fav.png"/>
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
 
-        <script type="text/javascript" src="./web/js/jPlayer/jquery.jplayer.min.js"></script>
+        <script type="text/javascript" src="/web/js/jPlayer/jquery.jplayer.min.js"></script>
 
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-        <link href="./web/css/style.css" rel="stylesheet" media="all" />
+        <link href="/web/css/style.css" rel="stylesheet" media="all" />
     
         <?php include ROOT . '/personalization/placeholder/head.phtml' ?>
     </head>
@@ -29,7 +29,7 @@
         
         <div class="head">
             <div class="dib">
-                <img src="./web/img/logo.png"/>
+                <img src="/web/img/logo.png"/>
             </div>
 
             <div class="search">
@@ -102,7 +102,7 @@
                 search: function() {
                     var val = $('#q').val();
 
-                    Site.load("./search/"+(val.replace(/\//, ' ')), 1);
+                    Site.load("/search/"+(val.replace(/\//, ' ')), 1);
                     return false;
                 }
             }
@@ -129,7 +129,7 @@
 
                         success: function(data) {
                             User.reloadUserParts();
-                            Site.load("./", 1);
+                            Site.load("/", 1);
                         }
                     });
 
@@ -139,7 +139,7 @@
                 logout: function() {
                     Loading.on();
                     $.ajax({
-                        url: "./user/logout",
+                        url: "/user/logout",
                         type: 'post',
 
                         success: function(data) {
@@ -149,7 +149,7 @@
                 },
 
                 reloadUserParts: function() {
-                    $('#part_menu').load("./part/menu");
+                    $('#part_menu').load("/part/menu");
                     Controls.init();
                     reloadPlaylists();
                     Loading.off();
@@ -163,7 +163,7 @@
                         var self = this;
                         $('.plslist').remove();
                         $.ajax({
-                            url: "./plslist",
+                            url: "/plslist",
                             success: function( resp ) {
                                 $($(self).parents('.x-track').find('.pladdcont')).append(resp);
                             }
@@ -179,7 +179,7 @@
                             var vkId = $(this).parents('.x-track').data('vkid');
 
                             $.ajax({
-                                url: "./user/pltrackremove",
+                                url: "/user/pltrackremove",
                                 type: "post",
                                 data: {
                                     playlistId: playlistId,
@@ -198,7 +198,7 @@
 
                         Loading.on();
                         $.ajax({
-                            url: "./getlyrics",
+                            url: "/getlyrics",
                             data: {
                                 lyricsId: lyricsId
                             },
@@ -235,7 +235,7 @@
                             $('#trackname').html($(track).data('artist')+' - '+$(track).data('name'));
 
                             $("#jquery_jplayer_1").jPlayer("setMedia", {
-                                "mp3": "./getsong/"+vkid
+                                "mp3": "/getsong/"+vkid
                             }).jPlayer("play");
                         }
                     });
@@ -328,7 +328,7 @@
 
                 init: function() {
                     $("#jquery_jplayer_1").jPlayer({
-                        swfPath: "./web/js/jPlayer/",
+                        swfPath: "/web/js/jPlayer/",
                         solution: "flash, html",
                         supplied: "mp3",
                         volume: "100",
@@ -371,7 +371,7 @@
 
             function reloadPlaylists() {
                 $.ajax({
-                    url: "./user/widget/pl",
+                    url: "/user/widget/pl",
                     success: function( resp ) {
                         $('#playlists').html(resp);
                         Controls.init();
@@ -404,7 +404,7 @@
         </style>
 
         <div class="loading" id="loading">
-            <img src="./web/img/loading.gif"/>
+            <img src="/web/img/loading.gif"/>
         </div>
     </body>
 </html>

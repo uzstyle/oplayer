@@ -6,7 +6,7 @@
 
 		<?php foreach ( $similar as $key => $similarArtist ): ?>
 			<?php $del = ( $key >= ( count($similar) - 1 ) ? "" : ", " ) ?> 
-			<a href="./search/<?php echo $similarArtist->name ?>"><?php echo $similarArtist->name ?></a><?php echo $del?>	
+			<a href="/search/<?php echo $similarArtist->name ?>"><?php echo $similarArtist->name ?></a><?php echo $del?>	
 		<?php endforeach ?>
 	</div>
 <?php endif ?>

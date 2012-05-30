@@ -81,7 +81,7 @@
 					});
 
 					$.ajax({
-						url: "./user/plspos",
+						url: "/user/plspos",
 						type: "post",
 						data: {poss: poss},
 						success: function() {}
@@ -99,7 +99,7 @@
 					});
 
 					$.ajax({
-						url: "./user/pltrackspos",
+						url: "/user/pltrackspos",
 						type: "post",
 						data: {poss: poss, playlistId: $(plbody).parents('.pl').data('id')},
 						success: function() {}
@@ -112,7 +112,7 @@
 				var name = prompt("Введи имя плейлиста", "Новый плейлист");
 				if ( name ) {
 					$.ajax({
-						url: "./user/addpl",
+						url: "/user/addpl",
 						type: "post",
 						data: {name: name},
 						success: function() {
@@ -128,7 +128,7 @@
 				var name = prompt("Введи новое имя плейлиста", $(this).parents('.pl').data('name'));
 				if ( name ) {
 					$.ajax({
-						url: "./user/renamepl",
+						url: "/user/renamepl",
 						type: "post",
 						data: {id: id, name: name},
 						success: function() {
@@ -143,7 +143,7 @@
 
 				if ( confirm("Уверен?") ) {
 					$.ajax({
-						url: "./user/delpl",
+						url: "/user/delpl",
 						type: "post",
 						data: {id: id},
 						success: function() {
@@ -165,7 +165,7 @@
 				}
 
 				$.ajax({
-					url: "./user/expandpl",
+					url: "/user/expandpl",
 					type: "post",
 					data: {
 						id: id, 
