@@ -9,9 +9,9 @@
 <div style="float:right;margin-top: -3px;">
 	<?php if ( $app['user']->get() ): ?>
 	Привет, <strong><?php echo $app['user']->get('login') ?></strong> &bull;
-	<a href="javascript:" onclick="User.logout();">Выйти</a>
+	<a href="javascript:" class="login" onclick="User.logout();">Выйти</a>
 	<?php else: ?>
-		<a href="/login">Войти</a>
+		<a href="/login" class="login">Войти</a>
 	<?php endif ?>
 	&nbsp;&nbsp;
 	<a href="https://twitter.com/openwebplayer" class="twitter-follow-button" data-show-count="false" data-lang="ru">Читать @openwebplayer</a>
