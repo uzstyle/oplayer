@@ -5,7 +5,7 @@
         <?php foreach ( $artists->artists->artist as $i => $artist ): ?>
             <td>
                 <div style="position:relative">
-                    <a data-img="<?php echo $artist->image[2]->{"#text"} ?>" title="Слушать <?php echo $artist->name ?> онлайн" href="./search/<?php echo urlencode(str_replace("/", " ", $artist->name)) ?>" class=""><?php echo $artist->name ?></a>
+                    <a data-img="<?php echo $artist->image[2]->{"#text"} ?>" title="Слушать <?php echo $artist->name ?> онлайн" href="/search/<?php echo urlencode(str_replace("/", " ", $artist->name)) ?>" class=""><?php echo $artist->name ?></a>
                 </div>
             </td>
             

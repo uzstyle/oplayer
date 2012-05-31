@@ -1,19 +1,19 @@
-<?php if ( $app['user']->get() ): ?>
-	Привет, <strong><?php echo $app['user']->get('login') ?></strong> &bull;
-	<a href="javascript:" onclick="User.logout();">Выйти</a>
-<?php else: ?>
-	<a href="./login">Войти</a>
-<?php endif ?>
 &bull;
-
-<a href="./">Топ исполнителей</a> &bull;
-<a href="./about">О сайте</a> &bull;
-<a href="./forcopyrighters">Правообладателям</a> &bull;
-<!-- <a href="./contact">Contact us</a> &bull; -->
-<a href="./discuss">Обсуждение сайта</a>
+<a href="/">Главная</a> &bull;
+<a href="/about">О сайте</a> &bull;
+<a href="/forcopyrighters">Правообладателям</a> &bull;
+<!-- <a href="/contact">Contact us</a> &bull; -->
+<a href="/discuss">Обсуждение сайта</a>
 
 
 <div style="float:right;margin-top: -3px;">
+	<?php if ( $app['user']->get() ): ?>
+	Привет, <strong><?php echo $app['user']->get('login') ?></strong> &bull;
+	<a href="javascript:" class="login" onclick="User.logout();">Выйти</a>
+	<?php else: ?>
+		<a href="/login" class="login">Войти</a>
+	<?php endif ?>
+	&nbsp;&nbsp;
 	<a href="https://twitter.com/openwebplayer" class="twitter-follow-button" data-show-count="false" data-lang="ru">Читать @openwebplayer</a>
 
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
