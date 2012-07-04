@@ -12,6 +12,7 @@ define('ROOT', __DIR__);
 require_once ROOT . '/silex.phar';
 require_once ROOT . '/autoload.php';
 require_once ROOT . '/helpers.php';
+require_once 'phar://'.__DIR__.'/silex.phar/autoload.php';
 
 $app = new Silex\Application();
 
