@@ -279,7 +279,10 @@
                         return false;
                     });
 
-                    var popped = ('state' in window.history), initialURL = location.href
+                    // Исправляем баг некоторых браузеров 
+                    // которые подгружают данные после загрузки страницы
+                    var popped = ('state' in window.history && window.history.state !== null), initialURL = location.href;
+                    
                     $(window).bind('popstate', function(event) {
                         // Ignore inital popstate that some browsers fire on page load
                         var initialPop = !popped && location.href == initialURL;
@@ -300,9 +303,9 @@
                     // to change the browser URL to 'href'
                     if ( store && href != location.href ) {
                         if (  typeof window.history.pushState != 'undefined' ) {
-                            window.history.pushState({
-                                path: href
-                            }, 'Title', href);
+                            // Исправляем баг в Chrome >19 
+                            // где данные подгружаются после загрузки страницы
+                            history.pushState(null,null,href);
                         } else {
                             // Старые браузеры идут накуй
                         }
