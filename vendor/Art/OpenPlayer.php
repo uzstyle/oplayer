@@ -71,7 +71,6 @@ class Core {
       preg_match_all("/ip_h: '(.*)?'/", $body, $matches);
       $ip_h = $matches[1][0];
 
-
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_HEADER, 1);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -80,14 +79,15 @@ class Core {
       curl_setopt($ch, CURLOPT_USERAGENT, $this->uagent);
       curl_setopt($ch, CURLOPT_COOKIEFILE, $cookies);
       curl_setopt($ch, CURLOPT_COOKIEJAR, $cookies);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, "act=login&q=1&al_frame=1&expire=&captcha_sid=&captcha_key=&from_host=vk.com&from_protocol=http&ip_h={$ip_h}&email={$this->email}&pass={$this->pass}");
-      curl_setopt($ch, CURLOPT_URL, 'http://login.vk.com/');
-
-      curl_setopt($ch, CURLOPT_REFERER, 'http://vk.com/');
+      curl_setopt($ch, CURLOPT_POSTFIELDS, "email={$this->email}&pass={$this->pass}");
+      curl_setopt($ch, CURLOPT_URL, "https://login.vk.com/?act=login&_origin=http://m.vk.com&ip_h={$ip_h}&role=pda&utf8=1");
+      // curl_setopt($ch, CURLOPT_PORT , 443);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+      curl_setopt($ch, CURLOPT_REFERER, 'http://m.vk.com/login');
       
       $body = $this->curl_redirect_exec($ch);
       curl_close($ch);
-
 
       $ch2 = curl_init();
       curl_setopt($ch2, CURLOPT_HEADER, 1);
@@ -101,11 +101,11 @@ class Core {
       $responce = $this->curl_redirect_exec($ch2);
       curl_close($ch2);
 
-
-
-      // if ( strpos($responce, "https://login.vk.com") ) {
-      //   return null;
-      // }
+// echo $responce;die;
+// error_log($responce);
+      if ( strpos($responce, 'action="https://login.vk.com') ) {
+        return null;
+      }
 
       if ( preg_match_all("/access_token=(.*)&expires_in=86400/i", $responce, $res) ) {
         // everything is going fine
@@ -202,7 +202,7 @@ class Core {
   }
 
     //public function audioGet($a) {
-    //    $ch = curl_init();
+    //  $ch = curl_init();
     //	curl_setopt($ch, CURLOPT_HEADER, 0);
     //	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     //	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
