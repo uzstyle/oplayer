@@ -175,7 +175,7 @@ class Core {
     $result = array();
     if ( $count = (int)$data->count ) {
       foreach ($data->audio as $track) {
-        $result[] = (array)$track;
+        if ( isset($track->aid) ) $result[] = (array)$track;
       }
     }
     
