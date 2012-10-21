@@ -381,6 +381,22 @@
                     }
                 });
             }
+
+$($('.sidebar .opdiv').get(0)).attr('id', 'plpl');
+var el = $('#plpl').get(0);
+$(el).parents('div').css({'position':'relative'});
+$('#playlists').css({'padding-top':'30px'});
+$(el).css({'position':'absolute','width':'100%','z-index':'1000'});
+var offset = $(el).offset();
+var topPadding = 10;
+$(window).scroll(function() {
+    if ($(window).scrollTop() > offset.top) {
+        $(el).stop().animate({marginTop: $(window).scrollTop() - offset.top + topPadding});
+    } else {
+        $(el).stop().animate({marginTop: 0});
+    }
+});
+
         </script>
 
         <?php include 'form/popup.phtml' ?>
