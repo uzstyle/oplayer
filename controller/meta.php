@@ -6,7 +6,7 @@ $app->get('/part/{file}', function($file) use($app) {
 	$avparts = array("menu");
 
 	if ( !in_array($file, $avparts) ) {
-		return new Responce("WTF?");	
+		return new Response("WTF?");	
 	}
 
     return $app['view']->render(null, "part/{$file}.phtml");
