@@ -162,7 +162,15 @@ class Core {
       Cache::set($cachekey, $audio, $cacheTime);
     }
     
-    $data = new \SimpleXMLElement($audio);
+    libxml_use_internal_errors(true);
+    $dom = new \DOMDocument("1.0", "UTF-8");
+    $dom->strictErrorChecking = false;
+    $dom->validateOnParse = false;
+    $dom->recover = true;
+    $dom->loadXML($audio);
+    $data = simplexml_import_dom($dom);
+    libxml_clear_errors();
+    libxml_use_internal_errors(false);
     
     $result = array();
     if ( $count = (int)$data->count ) {
