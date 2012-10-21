@@ -8,6 +8,8 @@
 //   - Pagerfanta (https://github.com/whiteoctober/Pagerfanta)
 
 session_start();
+date_default_timezone_set('Europe/Moscow');
+
 define('ROOT', __DIR__);
 require_once ROOT . '/silex.phar';
 require_once ROOT . '/autoload.php';
