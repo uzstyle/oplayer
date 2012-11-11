@@ -154,8 +154,7 @@ class Core {
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
       curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-		$url = 'https://api.vk.com/method/audio.search.xml?access_token=' . $this->getToken() . '&q=' . urlencode($q);
-		curl_setopt($ch, CURLOPT_URL, $url );
+      curl_setopt($ch, CURLOPT_URL, 'https://api.vk.com/method/audio.search.xml?access_token=' . $this->getToken() . '&count=' . $count . '&q=' . urlencode($q) . '&format=JSON&offset=' . $page)
 
       $audio = $this->curl_redirect_exec($ch);
       curl_close($ch);
