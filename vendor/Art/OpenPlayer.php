@@ -53,6 +53,7 @@ class Core {
     $token = Cache::get($cacheKey);
 
     if ( !$token ) {
+
       $ch0 = curl_init();
       // curl_setopt($ch0, CURLOPT_HEADER, 1);
       curl_setopt($ch0, CURLOPT_RETURNTRANSFER, 1);
@@ -62,13 +63,12 @@ class Core {
       curl_setopt($ch0, CURLOPT_COOKIEFILE, $cookies);
       curl_setopt($ch0, CURLOPT_COOKIEJAR, $cookies);
       // curl_setopt($ch0, CURLOPT_POSTFIELDS, "act=login&q=1&al_frame=1&expire=&captcha_sid=&captcha_key=&from_host=vk.com&from_protocol=http&ip_h=&email={$this->email}&pass={$this->pass}");
-      curl_setopt($ch0, CURLOPT_URL, 'http://vk.com/');
+      curl_setopt($ch0, CURLOPT_URL, 'http://m.vk.com/login');
       // curl_setopt($ch0, CURLOPT_REFERER, 'http://vk.com/');
       
       $body = $this->curl_redirect_exec($ch0);
       curl_close($ch0);
-
-      preg_match_all("/ip_h: '(.*)?'/", $body, $matches);
+      preg_match_all("/ip_h=(\w+)/", $body, $matches);
       $ip_h = $matches[1][0];
 
       $ch = curl_init();
@@ -101,10 +101,9 @@ class Core {
       $responce = $this->curl_redirect_exec($ch2);
       curl_close($ch2);
 
-// echo $responce;die;
-// error_log($responce);
+
       if ( strpos($responce, 'action="https://login.vk.com') ) {
-        return null;
+        // return null;
       }
 
       if ( preg_match_all("/access_token=(.*)&expires_in=86400/i", $responce, $res) ) {
@@ -137,7 +136,6 @@ class Core {
     if ( file_exists($cookies) ) {
       unlink($cookies);
     }
-    
     return $token;
   }
     
@@ -148,20 +146,24 @@ class Core {
     $cachekey = "vkontakte_" . sha1($q.$page.$count).".xml";
     
     $audio = Cache::get( $cachekey );
+  
+	
     if ( !$audio ) {
       $ch = curl_init();
-      curl_setopt($ch, CURLOPT_HEADER, 0);
+      // curl_setopt($ch, CURLOPT_HEADER, 0);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
       curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-      curl_setopt($ch, CURLOPT_URL, 'https://api.vk.com/method/audio.search.xml?access_token=' . $this->getToken() . '&count=' . $count . '&q=' . urlencode($q) . '&format=JSON&offset=' . $page);
+		$url = 'https://api.vk.com/method/audio.search.xml?access_token=' . $this->getToken() . '&q=' . urlencode($q);
+		curl_setopt($ch, CURLOPT_URL, $url );
 
-      $audio = curl_exec($ch);
+      $audio = $this->curl_redirect_exec($ch);
       curl_close($ch);
 
       Cache::set($cachekey, $audio, $cacheTime);
     }
     
+	
     libxml_use_internal_errors(true);
     $dom = new \DOMDocument("1.0", "UTF-8");
     $dom->strictErrorChecking = false;
@@ -178,7 +180,6 @@ class Core {
         if ( isset($track->aid) ) $result[] = (array)$track;
       }
     }
-    
     return array(
       'count' => $count,
       'result' => $result
