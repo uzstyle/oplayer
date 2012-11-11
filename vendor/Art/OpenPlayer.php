@@ -110,7 +110,7 @@ class Core {
       if ( preg_match_all("/access_token=(.*)&expires_in=86400/i", $responce, $res) ) {
         // everything is going fine
         $token = $res[1][0];
-      } elseif ( preg_match_all("/approve\(\).*?\n.*?location.href = \"(.*?)\";/", $responce, $res) ) {
+      } elseif ( preg_match_all('~"(https://login.vk.com/\?act=grant_access.+)"~', $responce, $res) ) {
         // accept application permissions
         $href = $res[1][0];
 
