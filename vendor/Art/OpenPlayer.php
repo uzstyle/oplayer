@@ -29,6 +29,13 @@ class Cache {
     
     return $cache ? $cache->delete() : false;
   }
+
+  public static function clearAll() {
+    $caches = \Model\Cache::all();
+    foreach ( $caches as $cache ) {
+      $cache->delete();
+    }
+  }
 }
 
 class Core {
@@ -47,13 +54,12 @@ class Core {
     }
   }
     
-  public function getToken() {
+  public function getToken( $retoken = 0 ) {
     $cookies = ROOT . Cache::$cacheRoot . '/cookie_' . sha1(date('d_m_y') . 'token' . $this->email) . '.txt';
     $cacheKey = "access_token_".sha1($this->email).".txt";
     $token = Cache::get($cacheKey);
 
     if ( !$token ) {
-
       $ch0 = curl_init();
       // curl_setopt($ch0, CURLOPT_HEADER, 1);
       curl_setopt($ch0, CURLOPT_RETURNTRANSFER, 1);
@@ -65,11 +71,13 @@ class Core {
       // curl_setopt($ch0, CURLOPT_POSTFIELDS, "act=login&q=1&al_frame=1&expire=&captcha_sid=&captcha_key=&from_host=vk.com&from_protocol=http&ip_h=&email={$this->email}&pass={$this->pass}");
       curl_setopt($ch0, CURLOPT_URL, 'http://m.vk.com/login');
       // curl_setopt($ch0, CURLOPT_REFERER, 'http://vk.com/');
-      
       $body = $this->curl_redirect_exec($ch0);
       curl_close($ch0);
+
       preg_match_all("/ip_h=(\w+)/", $body, $matches);
+      // file_put_contents(ROOT . '/assets/body', $ip_h);
       $ip_h = $matches[1][0];
+      
 
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_HEADER, 1);
@@ -109,7 +117,7 @@ class Core {
       if ( preg_match_all("/access_token=(.*)&expires_in=86400/i", $responce, $res) ) {
         // everything is going fine
         $token = $res[1][0];
-      } elseif ( preg_match_all('~"(https://login.vk.com/\?act=grant_access.+)"~', $responce, $res) ) {
+      } elseif ( !$retoken && preg_match_all('~"(https://login.vk.com/\?act=grant_access.+)"~', $responce, $res) ) {
         // accept application permissions
         $href = $res[1][0];
 
@@ -124,7 +132,7 @@ class Core {
         $responce = $this->curl_redirect_exec($ch3);
 
         curl_close($ch3);
-        $token = $this->getToken();
+        $token = $this->getToken(1);
       } else {
         $token = Cache::get('access_token');
         Cache::clear('access_token');
@@ -136,6 +144,12 @@ class Core {
     if ( file_exists($cookies) ) {
       unlink($cookies);
     }
+
+    if ( $retoken && !$token ) {
+      // Cache::clearAll();
+      throw new \Exception("Проверьте работоспособность аккаунта ВКОНТАКТЕ");
+    }
+
     return $token;
   }
     
