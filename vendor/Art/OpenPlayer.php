@@ -16,7 +16,7 @@ class Cache {
     
   public static function get( $key ) {
     $data = \Model\Cache::find('one', array('conditions' => array(
-      '`expiredAt` > ? AND `key` = ?', time(), $key
+      '`expiredAt` > ? AND `key` = ?', date( "Y-m-d H:i:s" ), $key
     )));
 
     return $data ? $data->data : null;
@@ -24,7 +24,7 @@ class Cache {
     
   public static function clear( $key ) {
     $cache = \Model\Cache::find('one', array('conditions' => array(
-      '`expiredAt` > ? AND `key` = ?', time(), $key
+      '`expiredAt` > ? AND `key` = ?', date( "Y-m-d H:i:s" ), $key
     )));
     
     return $cache ? $cache->delete() : false;
@@ -255,7 +255,7 @@ class Core {
   }
     
   function remoteFilesize($url) {
-    ob_start();
+    /*ob_start();
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_NOBODY, 1);
@@ -270,7 +270,9 @@ class Core {
     $regex = '/Content-Length:\s([0-9].+?)\s/';
     preg_match($regex, $head, $matches);
     
-    return isset($matches[1]) ? $matches[1] : "unknown";
+    return isset($matches[1]) ? $matches[1] : "unknown";*/
+    $head = get_headers($url, 1);
+    return isset($head['Content-Length']) ? $head['Content-Length'] : "unknown";
   }
     
   public function curl_redirect_exec($ch, &$redirects = 0, $curloptHeader = false) {
