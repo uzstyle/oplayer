@@ -282,7 +282,7 @@
                     // Исправляем баг некоторых браузеров 
                     // которые подгружают данные после загрузки страницы
                     var popped = ('state' in window.history && window.history.state !== null), initialURL = location.href;
-                    
+                    $(window).unbind('popstate');
                     $(window).bind('popstate', function(event) {
                         // Ignore inital popstate that some browsers fire on page load
                         var initialPop = !popped && location.href == initialURL;
