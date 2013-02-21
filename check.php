@@ -24,35 +24,6 @@ if ( !file_exists( ROOT . '/conf/app.ini') ) {
 	$ok = false;	
 }
 
-require_once "autoload.php";
-require_once "vendor/Art/Config.php";
-
-file_get_contents(Art\Config::getInstance()->getOption('app', 'baseHref') . "cc");
-
-$conf = Art\Config::getInstance()->getOptions('vk');
-
-require_once ROOT . '/vendor/AR/ActiveRecord.php';
-ActiveRecord\Config::initialize(function($cfg) {
-    $cfg->set_model_directory( ROOT . '/model');
-    $cfg->set_connections(array(
-        'production' => Art\Config::getInstance()->getOption('db', 'dsn')
-    ));
-
-    $cfg->set_default_connection('production');
-});
-
-require_once "vendor/Art/OpenPlayer.php";
-foreach ($conf['email'] as $key => $email) {
-	$op = new OpenPlayer\Core(
-		$conf['email'][$key], $conf['pass'][$key], $conf['appId'], $conf['uagent']
-	);
-
-	if ( !$op->getToken() ) {
-		$errors[] = "Аккаунт {$conf['email'][$key]} не работает. Для восстановления работоспособности аккаунта, или его проверки - попробуйте войти под ним через браузер, желательно с айпи (прокси) хотя бы той же страны, в которой находится сервер OpenPlayer-а.";
-		$ok = false;
-	}
-}
-
 if ( !$ok ) {
 	foreach ($errors as $error) {
 		echo "<div style='margin-bottom:5px;background-color:yellow;padding:5px;border:1px solid orange;'>{$error}</div>";
