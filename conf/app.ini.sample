@@ -22,10 +22,8 @@ dsn = "mysql://USER:PASSWORD@HOST/DBNAME;charset=utf8"
 artists = "24*60*60"
 
 [vk]
-; Parser settings
-uagent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_2) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1"
-; Standalone vk-application ID
-appId = 2802695
+appId = 3396818
+userId = 45156834
 
 ; VK Accounts
 email[0] = "email@domain.com"

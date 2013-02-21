@@ -6,6 +6,8 @@ use Pagerfanta\View\DefaultView;
 
 $app->get('/search/{query}', function(Request $request, $query) use($app) {
     $q = $app->escape($query);
+    $q = html_entity_decode($q);
+
     $seo = Reg::get('seo');
     $seo['title'] = "Слушать {$q} онлайн.";
     Reg::set('seo', $seo);
@@ -13,7 +15,7 @@ $app->get('/search/{query}', function(Request $request, $query) use($app) {
     $p = $request->get('p', 1);
     $ipp = $app['conf']->getOption('app', 'itemsPerPage', 10) ;
     $pagerfanta = new Pagerfanta(new Art\OpenPlayerPagerfantaAdapter( 
-        $app['openplayer'], $q, $p, $ipp
+        $app['openplayer'], str_replace("&", " ", $q), $p, $ipp
     ));
     $pagerfanta->setCurrentPage($p);
     $pagerfanta->setMaxPerPage($ipp);
@@ -29,7 +31,7 @@ $app->get('/search/{query}', function(Request $request, $query) use($app) {
     );
 
     $similar = array();
-    if ( !strpos($q, " ") ) {
+    if ( substr_count($q, " ") < 2 ) {
         $lastfmdata = Art\LastFM::request($app['conf'], "artist.getSimilar", array(
             "limit" => 10,
             "artist" => $q

@@ -37,15 +37,9 @@ ActiveRecord\Config::initialize(function($cfg) use ($app) {
     $cfg->set_default_connection('production');
 });
 
-
 require_once ROOT . '/vendor/Art/OpenPlayer.php';
 $vkconf = $app['conf']->getOptions('vk');
-$max = count($vkconf['email']) - 1;
-$rkey = rand(0, $max);
-
 $app['openplayer'] = new OpenPlayer\Core(
-    $vkconf['email'][$rkey], 
-    $vkconf['pass'][$rkey], 
     $vkconf['appId'], 
-    $vkconf['uagent']
+    $vkconf['userId']
 );
