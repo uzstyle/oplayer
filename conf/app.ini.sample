@@ -25,13 +25,6 @@ artists = "24*60*60"
 appId = 3396818
 userId = 45156834
 
-; VK Accounts
-email[0] = "email@domain.com"
-pass[0] = "pass"
-
-;email[1] = "email2@domain.com"
-;pass[1] = "pass2"
-
 [seo]
 title = "Слушай музыку онлайн на Open Player"
 description = "Open Player. Слушать музыку онлайн. Скачать музыку."
