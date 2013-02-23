@@ -53,7 +53,7 @@ $app->get('/search/{query}', function(Request $request, $query) use($app) {
 });
 
 $app->get('/track/{vkid}', function(Request $request, $vkid) use($app) {
-    $vtrack = $app['openplayer']->audioGetById($vkid)->audio;
+    $vtrack = $app['openplayer']->audioGetById($vkid);
 
     $seo = Reg::get('seo');
     $seo['title'] = "Слушать {$vtrack->artist} - {$vtrack->title} онлайн.";

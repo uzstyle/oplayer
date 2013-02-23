@@ -106,7 +106,6 @@ $app->post('/user/addtrackToPl', function(Request $request) use($app) {
 		$vkid = $request->get('vkId');
 
 		$vkTrack = $app['openplayer']->audioGetById( $vkid );
-		$vkTrack = $vkTrack->audio;
 
 		$plTrack = \Model\PlTrack::find_by_plid_and_vkid($pl->id, $vkid);
 
