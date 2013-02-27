@@ -7,7 +7,7 @@
 <a title="Слушать <?php echo $artist->name ?> онлайн" href="/search/<?php echo urlencode(str_replace("/", " ", $artist->name)) ?>" class="">
                 <div class="ar pic">
                 <span class="title"><?php echo $artist->name ?></span>
-<img class="lazy" src="img/grey.gif" data-original="<?php echo $artist->image[2]->{"#text"} ?>">
+<img class="lazy" src="<?php echo $artist->image[2]->{"#text"} ?>">
                 </div>
 </a>
             </td>
