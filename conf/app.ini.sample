@@ -1,6 +1,6 @@
 [app]
 ;Main page catalog limit ( 200 - max ).
-catalogLimit = 198
+catalogLimit = 100
 ; Tracks search page limit
 itemsPerPage = 50
 
