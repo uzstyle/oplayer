@@ -251,13 +251,6 @@
                         prompt("Ссылка на трек", "<?php echo $app['conf']->getOption('app', 'baseHref') ?>track/"+$(track).data('vkid'));
                     });
 
-                    $('#topArtists a').hover(function() {
-                        var img = $(this).data('img');
-                        $('<img/>', {'src': img, 'css': {'position': 'absolute', 'top': '15px', 'z-index': 100}})
-                            .insertBefore($(this));
-                    }, function() {
-                        $('#topArtists img').remove();
-                    });
 
                     var selector = 'a[href!="javascript:"][siteload!="siteload"]';
                     $(selector).click(function(e) {
