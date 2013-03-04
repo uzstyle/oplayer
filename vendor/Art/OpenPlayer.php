@@ -49,6 +49,7 @@ class Core {
   }
 
   public function audioSearch($q, $page = 0, $count = 10, $cacheTime = 86400) {
+    $q = str_replace("&", " ", $q);
     if (!$page || $page <= 0)
       $page = 0;
     else
