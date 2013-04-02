@@ -266,6 +266,7 @@ a:hover {
 
     width: 38%;
     float: right;
+    z-index: 999;
 }
 
 .sidebar .opdiv {
