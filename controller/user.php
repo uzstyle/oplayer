@@ -239,7 +239,7 @@ function lastfmchart() {
 	        "{$artist} - {$name}", 0, 1
 	    );
 
-	    $vtrack = $vtrack['result'][0];
+	    $vtrack = $vtrack['result'][1];
 
     	$rtracks[] = array(
     		'vkid' => "{$vtrack['owner_id']}_{$vtrack['aid']}",
